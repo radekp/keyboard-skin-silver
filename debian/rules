@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+
+build:
+
+clean:
+	rm -rf debian/tmp
+	rm -f debian/files
+
+binary: build
+	mkdir -p debian/tmp/opt/qtmoko/etc/fingerkeyboard
+	mkdir -p debian/tmp/opt/qtmoko/pics/fingerkeyboard/skins/silver
+	cp skin.conf debian/tmp/opt/qtmoko/etc/fingerkeyboard
+	cp pics/* debian/tmp/opt/qtmoko/pics/fingerkeyboard/skins/silver
+	install -d debian/tmp/DEBIAN
+	dpkg-gencontrol
+	chown -R root:root debian/tmp/opt
+	chmod -R u+w,go=rX debian/tmp/opt
+	dpkg --build debian/tmp ..
